@@ -36,12 +36,12 @@ declare module 'source-map-js' {
     }
 
     export interface MappingItem {
-        source: string;
+        source: string | null;
         generatedLine: number;
         generatedColumn: number;
-        originalLine: number;
-        originalColumn: number;
-        name: string;
+        originalLine: number | null;
+        originalColumn: number | null;
+        name: string | null;
     }
 
     export class SourceMapConsumer {
@@ -57,24 +57,25 @@ declare module 'source-map-js' {
         generatedPositionFor(originalPosition: SourceFindPosition): LineRange;
         allGeneratedPositionsFor(originalPosition: MappedPosition): Position[];
         hasContentsOfAllSources(): boolean;
-        sourceContentFor(source: string, returnNullOnMissing?: boolean): string;
+        sourceContentFor(source: string, returnNullOnMissing?: boolean): string | null;
         eachMapping(callback: (mapping: MappingItem) => void, context?: any, order?: number): void;
     }
 
     export interface Mapping {
         generated: Position;
-        original: Position;
-        source: string;
-        name?: string;
+        original?: Position | null;
+        source?: string | null;
+        name?: string | null;
     }
 
     export class SourceMapGenerator {
         constructor(startOfSourceMap?: StartOfSourceMap);
-        static fromSourceMap(sourceMapConsumer: SourceMapConsumer): SourceMapGenerator;
+        static fromSourceMap(sourceMapConsumer: SourceMapConsumer, startOfSourceMap?: StartOfSourceMap): SourceMapGenerator;
         addMapping(mapping: Mapping): void;
-        setSourceContent(sourceFile: string, sourceContent: string): void;
+        setSourceContent(sourceFile: string, sourceContent: string | null | undefined): void;
         applySourceMap(sourceMapConsumer: SourceMapConsumer, sourceFile?: string, sourceMapPath?: string): void;
         toString(): string;
+        toJSON(): RawSourceMap;
     }
 
     export interface CodeWithSourceMap {
