@@ -52,6 +52,11 @@ declare module 'source-map-js' {
         static LEAST_UPPER_BOUND: number;
 
         constructor(rawSourceMap: RawSourceMap);
+        readonly file: string | undefined | null;
+        readonly sourceRoot: string | undefined | null;
+        readonly sourcesContent: readonly string[] | null | undefined;
+        readonly sources: readonly string[]
+
         computeColumnSpans(): void;
         originalPositionFor(generatedPosition: FindPosition): MappedPosition;
         generatedPositionFor(originalPosition: SourceFindPosition): LineRange;
